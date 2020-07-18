@@ -20,4 +20,14 @@ public class HitZoneController : MonoBehaviour {
         	this.transform.position = originalPosition;
         }
     }
+
+    void OnTriggerEnter(Collider other) {
+		if (other.gameObject.CompareTag("Note")) {
+			if (Input.GetKey(key)) {
+				print("got note");
+			} else {
+				print("missed note");
+			}
+		}
+    }
 }
