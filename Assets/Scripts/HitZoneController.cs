@@ -6,6 +6,7 @@ public class HitZoneController : MonoBehaviour {
 
 	public KeyCode key;
 	private Vector3 originalPosition;
+	private GameObject collidedItem;
 
     void Start() {
         originalPosition = this.transform.position;
@@ -19,15 +20,29 @@ public class HitZoneController : MonoBehaviour {
         } else {
         	this.transform.position = originalPosition;
         }
+
+        if (Input.GetKeyDown(key)) {
+        	if (collidedItem) {
+    			print("SUCCESS");
+    			Destroy(collidedItem);
+    		} else {
+    			print("MISSED NOTE");
+    		}
+        }
     }
 
     void OnTriggerEnter(Collider other) {
 		if (other.gameObject.CompareTag("Note")) {
-			if (Input.GetKey(key)) {
-				print("got note");
-			} else {
-				print("missed note");
-			}
+			collidedItem = other.gameObject;
 		}
     }
+
+    void OnTriggerExit() {
+    	if (collidedItem) {
+    		Destroy(collidedItem);
+    		collidedItem = null;
+    		print("MISSED NOTE");
+    	}
+    }
+
 }
